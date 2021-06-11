@@ -1,0 +1,62 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+<div class="timeline">
+    <form action="/auth/join" id="join-form" method="POST">
+        <div class="input-group">
+            <label for="join-email">이메일</label>
+            <input type="email" name="email" id="join-email">
+        </div>
+        <div class="input-group">
+            <label for="join-nick">닉네임</label>
+            <input type="text" name="nick" id="join-nick">
+        </div>
+        <div class="input-group">
+            <label for="join-password">비밀번호</label>
+            <input type="password" name="password" id="join-password">
+        </div>
+        <button id="join-btn" type="button" class="btn">회원가입</button>
+    </form>
+</div>
+
+{% endblock %}
+
+{% block script %}
+    <script>
+        document.getElementById('join-btn').onclick = (e) => {
+            const joinForm = document.getElementById('join-form');
+            const joinEmail = document.getElementById('join-email');
+            const joinNick = document.getElementById('join-nick');
+            const joinPassword = document.getElementById('join-password');
+
+            if (!joinEmail.value) {
+                e.preventDefault();
+                joinEmail.focus();
+                return alert('이메일을 입력하세요.');
+            }   else if (!joinNick.value) {
+                e.preventDefault();
+                joinNick.focus();
+                return alert('닉네임을 입력하세요.');
+            } else if (!joinPassword.value) {
+                e.preventDefault();
+                joinPassword.focus();
+                return alert('암호를 입력하세요.')
+            }
+
+            joinForm.submit();
+        };
+
+
+        window.onload = () => {
+            const joinEmail = document.getElementById('join-email');
+
+
+            if (new URL(location.href).searchParams.get('error')) {
+                joinEmail.foucs();
+                alert('이미 존재하는 이메일입니다.');
+            }
+        };
+    </script>
+
+{% endblock %}
